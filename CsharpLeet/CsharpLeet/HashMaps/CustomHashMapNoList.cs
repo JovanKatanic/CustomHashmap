@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsharpLeet.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
@@ -29,7 +30,7 @@ namespace CsharpLeet
 
         public CustomHashMapNoList(int count)
         {
-            _count = 0;//get primes
+            _count = 0;
             _buckets = new int[count];
             _entries = new Entry[count];
         }
@@ -98,7 +99,7 @@ namespace CsharpLeet
 
         private void Resize() 
         {
-            int size = _count * 2 + 1; //calculate new size. should use size
+            int size = PrimeNumGen.GetPrime(_count);
             Entry[] entries = new Entry[size];
             _buckets = new int[size];
             Array.Copy(_entries, entries, _count);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CsharpLeet.Helpers
 {
-    public class PrimeNumGen
+    public static class PrimeNumGen
     {
         public static ReadOnlySpan<int> Primes =>
         [
@@ -17,7 +17,7 @@ namespace CsharpLeet.Helpers
             1674319, 2009191, 2411033, 2893249, 3471899, 4166287, 4999559, 5999471, 7199369
         ];
 
-        public int GetPrime(int min)
+        public static int GetPrime(int min)
         {
             if(min<0)
                 ThrowManager.ThrowArgumentOutOfRangeException();
@@ -27,7 +27,7 @@ namespace CsharpLeet.Helpers
 
             min *= 2;
 
-            return BinarySearch(min);
+            return Primes[BinarySearch(min)];//treba ukoliko je van navedenih brojeva
         }
 
         public static int BinarySearch(int num)
