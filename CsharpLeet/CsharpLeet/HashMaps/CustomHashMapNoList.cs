@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CsharpLeet
 {
-    public class CustomHashMapNoList<TKey,TValue>
+    [DebuggerTypeProxy(typeof(ICustomHashmapDebugView<,>))]
+    [DebuggerDisplay("Count = {Count}")]
+    public class CustomHashMapNoList<TKey,TValue> : ICustomHashmap<TKey, TValue>
     {
         private int _count;
         public int Count { get { return _count; } }
@@ -37,7 +41,7 @@ namespace CsharpLeet
             public uint hash;
             public int next;
         }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private ref int GetFirstEntry(uint hash,uint size)
         {
             return ref _buckets[hash % size];
@@ -94,7 +98,7 @@ namespace CsharpLeet
 
         private void Resize() 
         {
-            int size = _count * 2 + 1;//calculate new size. should use size
+            int size = _count * 2 + 1; //calculate new size. should use size
             Entry[] entries = new Entry[size];
             _buckets = new int[size];
             Array.Copy(_entries, entries, _count);
@@ -140,6 +144,15 @@ namespace CsharpLeet
             set
             {
                 Put(key, value);
+            }
+        }
+
+        public void CopyTo(ref Tuple<TKey, TValue,int>[] array,int index)
+        {
+            for(int i = index; i < _count; i++)
+            {
+                var tuple = new Tuple<TKey, TValue,int>(_entries[i].key, _entries[i].value, _entries[i].next);
+                array[i] = tuple;
             }
         }
 

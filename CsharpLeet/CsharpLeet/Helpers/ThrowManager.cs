@@ -17,5 +17,10 @@ namespace CsharpLeet
         {
             throw new KeyNotFoundException();
         }
+
+        public static void ThrowArgumentOutOfRangeException()
+        {
+            throw new ArgumentOutOfRangeException();
+        }
     }
 }
