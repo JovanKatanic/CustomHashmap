@@ -19,13 +19,8 @@ namespace CsharpLeet.Helpers
 
         public static int GetPrime(int min)
         {
-            if(min<0)
+            if(min<0 && min> 7199369)
                 ThrowManager.ThrowArgumentOutOfRangeException();
-
-            if (min <= 1)
-                return Primes[0];
-
-            min *= 2;
 
             return Primes[BinarySearch(min)];//treba ukoliko je van navedenih brojeva
         }
@@ -39,11 +34,15 @@ namespace CsharpLeet.Helpers
             while (left < right)
             {
                 mid = (left + right) / 2;
-                if (Primes[mid] <= num)
+                if(Primes[mid] == num)
+                {
+                    return mid;
+                }
+                else if (Primes[mid] < num)
                 {
                     left = mid+1;
                 }
-                else if (Primes[mid] >= num)
+                else if (Primes[mid] > num)
                 {
                     right = mid;
                 }

@@ -22,6 +22,7 @@ namespace CsharpLeet
         private int[] _buckets;
 
         private Entry[] _entries;
+        private int _freeList;
 
         public CustomHashMapNoList() : this(3)
         {
@@ -33,6 +34,7 @@ namespace CsharpLeet
             _count = 0;
             _buckets = new int[count];
             _entries = new Entry[count];
+            _freeList = -1;
         }
 
         private struct Entry
@@ -77,12 +79,20 @@ namespace CsharpLeet
                 bucket =ref GetFirstEntry(hash,len);
             }
 
-            i=_count++;
+            if (_freeList >= 0)
+            {
+                i=_freeList;
+                _freeList = _entries[i].next;
+            }
+            else
+            {
+                i = _count++;
+            }
             _entries[i].hash = hash;
             _entries[i].value = value;
             _entries[i].key = key;
-            _entries[i].next = bucket-1;
-            bucket = _count;
+            _entries[i].next = bucket - 1;
+            bucket = i;
 
             return true;
         }
@@ -91,6 +101,7 @@ namespace CsharpLeet
         {
             if (_count > 0)
             {
+                _freeList = -1;
                 _count = 0;
                 Array.Clear(_buckets);
                 Array.Clear(_entries, 0, _count);
@@ -99,7 +110,7 @@ namespace CsharpLeet
 
         private void Resize() 
         {
-            int size = PrimeNumGen.GetPrime(_count);
+            int size = PrimeNumGen.GetPrime(_count * 2);
             Entry[] entries = new Entry[size];
             _buckets = new int[size];
             Array.Copy(_entries, entries, _count);
@@ -150,11 +161,54 @@ namespace CsharpLeet
 
         public void CopyTo(ref Tuple<TKey, TValue,int>[] array,int index)
         {
+            //displays deleted elements also!!!
+
             for(int i = index; i < _count; i++)
             {
                 var tuple = new Tuple<TKey, TValue,int>(_entries[i].key, _entries[i].value, _entries[i].next);
                 array[i] = tuple;
             }
+        }
+
+        public bool Remove(TKey key)
+        {
+            if (key == null) ThrowManager.ThrowArgumentNullException(nameof(key));
+
+            uint hash = (uint)key.GetHashCode();
+            uint len = (uint)_entries.Length;
+
+            //uint test = hash % len; //for testing
+
+            ref int bucket = ref GetFirstEntry(hash, len);
+            int i = bucket - 1;
+
+            int prev = -1;
+
+            while ((uint)i <= len)
+            {
+                if (_entries[i].hash == hash && key.Equals(_entries[i].key))
+                {
+                    //_entries[i].hash = 0; //for testing
+                    //_entries[i].key = default(TKey);
+                    //_entries[i].value = default(TValue);
+
+                    if (prev < 0)
+                    {
+                        bucket = _entries[i].next + 1;
+                    }
+                    else
+                    {
+                        _entries[prev].next = _entries[i].next;
+                    }
+                    _entries[i].next = _freeList;
+                    _freeList = i;
+                    _count--;
+                    return true;
+                }
+                prev = i;
+                i = _entries[i].next;
+            }
+            return false;
         }
 
 

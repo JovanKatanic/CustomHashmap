@@ -17,7 +17,7 @@ namespace CsharpLeet.Tests
         public void TestBinarySearch(int a)
         {
             int b = a + 1;
-            for (int i = PrimeNumGen.Primes[a]; i < PrimeNumGen.Primes[b]; i++)
+            for (int i = PrimeNumGen.Primes[a]+1; i < PrimeNumGen.Primes[b]; i++)
             {
                 Assert.Equal(PrimeNumGen.BinarySearch(i), b);
             }
