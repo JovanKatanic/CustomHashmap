@@ -1,20 +1,29 @@
 ﻿
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Running;
 using CsharpLeet;
+using CsharpLeet.Benchmarks;
 using CsharpLeet.Helpers;
 using System.Collections;
 
+
+//var config = ManualConfig.Create(DefaultConfig.Instance)
+//            .AddDiagnoser(MemoryDiagnoser.Default);
+//BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, config);
+
+
 CustomHashMapNoList<string, int> map = new CustomHashMapNoList<string, int>();
+//map.Put("hey", 1);
+//map.Put("heyooo", 1);
+//map.Put("heyrrrr", 2);
+//map.Put("heyrrrrsss", 22);
 
-map.Put("hey", 1);
-map.Put("heyooo", 1);
-map.Put("heyrrrr", 2);
-map.Put("heyrrrrsss", 22);
+//map.Remove("hey");
 
-map.Remove("hey");
-
-map.Put("heyrrrrssss", 22);
-map.Put("heyrrrrssssad", 22);
-map.Put("heyrrrrsss1", 22);
+//map.Put("heyrrrrssss", 22);
+//map.Put("heyrrrrssssad", 22);
+//map.Put("heyrrrrsss1", 22);
 //map.Put("heyrrrrsss2", 22);
 //map.Put("heyrrrrsss3", 22);
 //map.Put("heyrrrrsss4", 22);
@@ -41,11 +50,13 @@ map.Put("heyrrrrsss1", 22);
 //map.Remove("hey");
 //map.Remove("heyrrrrssssad");
 
-Dictionary<int, int> d = new Dictionary<int, int>();
+//Dictionary<int, int> d = new Dictionary<int, int>();
 
 //Console.WriteLine(PrimeNumGen.BinarySearch(1));
 
-
+int[] arr = new int[10];
+int[] arr2 = new int[10];
+Array.Sort(arr);
 
 //d.Add(1, 99);
 //d.Add(5, 1);

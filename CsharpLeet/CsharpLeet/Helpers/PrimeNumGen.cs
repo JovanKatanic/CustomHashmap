@@ -17,12 +17,15 @@ namespace CsharpLeet.Helpers
             1674319, 2009191, 2411033, 2893249, 3471899, 4166287, 4999559, 5999471, 7199369
         ];
 
+        
+
         public static int GetPrime(int min)
         {
-            if(min<0 && min> 7199369)
+            if(min<0)
                 ThrowManager.ThrowArgumentOutOfRangeException();
 
-            return Primes[BinarySearch(min)];//treba ukoliko je van navedenih brojeva
+            if (min < 140) return LinearSearch(min);
+            return Primes[BinarySearch(min)];
         }
 
         public static int BinarySearch(int num)
@@ -47,7 +50,21 @@ namespace CsharpLeet.Helpers
                     right = mid;
                 }
             }
-            return Math.Max(right,left);
+            return left;
+        }
+
+        public static int LinearSearch(int min)
+        {
+            for (int i = 0; i < Primes.Length; i++)
+            {
+                int num = Primes[i];
+                if (num >= min)
+                {
+                    return num;
+                }
+            }
+
+            return min;
         }
     }
 }

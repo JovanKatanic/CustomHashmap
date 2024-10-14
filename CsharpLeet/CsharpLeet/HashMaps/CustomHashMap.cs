@@ -15,6 +15,10 @@ namespace CsharpLeet
 
         private Entry[] _buckets;
 
+        public void fun()
+        {
+            Console.WriteLine(this);
+        }
         private class Entry
         {
             public TKey _key;
