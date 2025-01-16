@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace CsharpLeet
+﻿namespace CsharpLeet
 {
-    public class CustomHashMap<TKey,TValue>
+    public class CustomHashMapWithLists<TKey,TValue>
     {
         private int _count;
         public int Count { get { return _count; } }
@@ -33,7 +25,7 @@ namespace CsharpLeet
             }
         }
 
-        public CustomHashMap()
+        public CustomHashMapWithLists()
         {
             _count = 0;
             _buckets = new Entry[4];
